@@ -1,41 +1,40 @@
 from tkinter import *
 # initiallisation of the tkinter widget##################
 
-class notepad(self,file_name,content):
-	def __init__(self):
-		
-		self.file_name = file_name
-		self.content = content
-
 
 root = Tk()
 root.title("Notepad --")
 root.geometry("800x800")
 
-#######################################
-global file_name
-global content
-file_name,content = str(),str()
 
-def write_append():
-	print(content)
+
+#######################################
+
+def write_append(x,y):
+	print("calling Append function")
+	file_name =x
+	content =y
 	f= open(file_name +'.txt',"a")
 	f.write(content)
 	f.close()
-def write_over():
+def write_over(x,y):
+	print("calling write_over function")
+	file_name =x
+	content =y
 	f = open(file_name+'.txt',"w")
 	f.write(content)
 	f.close()
 #this is the warning box , if file already exists , called from checkvalue()
-def warn():
-	print(content)
+def warn(x,y):
+	file_name =x
+	content =y
 
 	window =Tk()
 	window.geometry('300x100')
 	window.title("Warning!!")
-	warn1 = Label(window,text="File Already Exist!" ,font=("Ubuntu bold",20))
-	warnbut1=Button(window,text="overwrite",command=write_over)
-	warnbut2=Button(window,text="Append" ,command=write_append,font=(10))
+	warn1 = Label(window,text="File Already Exist!" ,font=("Ubuntu bold",10))
+	warnbut1=Button(window,text="overwrite",command= lambda: write_over(file_name,content))
+	warnbut2=Button(window,text="Append" ,command= lambda: write_append(file_name,content),font=(9))
 	warnbut3=Button(window,text="Cancel", command=quit)
 
 	warn1.grid(row=0,column=1)
@@ -46,22 +45,28 @@ def warn():
 
 
 #this function is to check weather the file already exists or not , of exists it will warn about overwriting , else it creates the file
-def checkvalue():
-	print(content)
+def checkvalue(x,y):
+	file_name =x
+	content =y
 
 	try:
 		f = open(file_name + '.txt',"x")
-		f.close()
-		write_over()
+
 	except FileExistsError:
-		warn()
+		print()
+		warn(file_name,content)
+
+
+	write_over(file_name,content)
+	f.close()
+
 
 
 
 def getvalue():
-	file_name =entry1.get()
+	file_name = entry1.get()
 	content = entry2.get(1.0,"end-1c")
-	checkvalue()
+	checkvalue(file_name,content)
 	# f = open(file_name + '.txt',"a")
 	# f.write(content)
 
