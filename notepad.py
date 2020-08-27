@@ -1,4 +1,5 @@
 from tkinter import *
+import pyperclip
 # initiallisation of the tkinter widget
 
 
@@ -11,6 +12,16 @@ root.columnconfigure(1,weight=3)
 
 
 #various funtions used in the program
+
+def copy():
+	content = entry2.get(1.0,"end-1c")
+	pyperclip.copy(content)
+
+def paste():
+	content =entry2.get(1.0,"end-1c")
+	entry2.delete(1.0,"end-1c")
+	entry2.insert(1.0,content + '\n' + pyperclip.paste())
+	
 
 #this function adds the content to an existing file ; the file with which the filename and location suites ; called from warn()
 def write_append(x,y):
@@ -82,6 +93,17 @@ menubar = Menu(root)
 #drop-down menus inside menubar
 filemenu = Menu(menubar,tearoff =0)
 filemenu.add_command(label = 'Save',command = getvalue)
+filemenu.add_separator()
+filemenu.add_command(label = "Exit", command=root.quit)
+
+editmenu = Menu(menubar,tearoff=0)
+editmenu.add_command(label='Copy',command=copy)
+editmenu.add_command(label='Paste',command=paste)
+
+
+menubar.add_cascade(label='File',menu=filemenu)
+menubar.add_cascade(label='Edit',menu=editmenu)
+root.config(menu=menubar)
 
 
 label1 = Label(root,text="FileName : ")
@@ -96,7 +118,7 @@ but1 = Button(root , text ='Save',command=getvalue,bg='black',fg='white')
 label1.grid(row=0,column=0)
 label2.grid(row=1,column=0)
 entry1.grid(row=0,column=1,sticky=E+W,ipadx=5,ipady=5)
-entry2.grid(row=1,column=1,sticky=E+W,ipadx=5,ipady =5)
+entry2.grid(row=1,column=1,sticky=E+W+S,ipadx=5,ipady =5)
 
 but1.grid(row=3,column =1 , sticky=E+W+S)
 
