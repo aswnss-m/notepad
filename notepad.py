@@ -15,6 +15,7 @@ class Notepad:
 	    menubar = Menu(self.root)
 	    filemenu = Menu(menubar, tearoff = 0)
 	    filemenu.add_command(label = 'Save', command = self.save_window)
+	    filemenu.add_command(label = 'Open  (beta)',command=self.open)
 	    filemenu.add_separator()
 	    filemenu.add_command(label="Quit",command=self.Quit)
 
@@ -94,9 +95,39 @@ class Notepad:
     		self.entry1.delete(1.0,"end-1c")
     		self.entry1.insert(1.0,"{} \n {}".format(text,pyperclip.paste()))
 
+################################################################################3
+    def open(self):
+    	self.openwindow = Tk()
+    	self.openwindow.title("Open")
+    	label1 = Label(self.openwindow,text="This is in beta stage!!!!")
+    	label2 = Label(self.openwindow,text="Filename: ")
+    	self.openfilename = Entry(self.openwindow)
+    	but1 = Button(self.openwindow,text="Open",command=self.openfunc)
+    	but2 = Button(self.openwindow,text="Clear",command= lambda : self.openfilename.delete(0,"end"))
+
+    	label1.grid(row=0,column=0,columnspan=3,sticky=E+W)
+    	label2.grid(row=1,column=0,sticky= E+W)
+    	self.openfilename.grid(row=1,column=1,columnspan=2,sticky=E+W)
+    	but1.grid(row=2,column=0,columnspan=2,sticky =E+W)
+    	but2.grid(row=2,column=2,sticky =E+W)
+    	self.openwindow.mainloop()
+    def openfunc(self):
+    	try:
+    		f=open(self.openfilename.get(),"r")
+    		text = f.read()
+    		self.entry1.insert(1.0,text)
+    		self.openwindow.destroy()
+    		f.close()
+    	except FileNotFoundError:
+    		self.openfilename.delete(0,"end")
+    		self.openfilename.insert(0,"File Not Found")
 
 
-main =Notepad(800, 800)
+    	
+
+
+
+Notepad(800, 800)
 
 
 
