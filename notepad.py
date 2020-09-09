@@ -1,4 +1,3 @@
-
 from tkinter import *
 import pyperclip
 # initiallisation of the tkinter widget
@@ -16,6 +15,7 @@ class Notepad:
 	    filemenu = Menu(menubar, tearoff = 0)
 	    filemenu.add_command(label = 'Save', command = self.save_window)
 	    filemenu.add_command(label = 'Open  (beta)',command=self.open)
+	    filemenu.add_command(label = 'Encrypt',command=self.encrypt)
 	    filemenu.add_separator()
 	    filemenu.add_command(label="Quit",command=self.Quit)
 
@@ -94,6 +94,45 @@ class Notepad:
     		text= self.entry1.get(1.0,"end-1c")
     		self.entry1.delete(1.0,"end-1c")
     		self.entry1.insert(1.0,"{} \n {}".format(text,pyperclip.paste()))
+
+    def encrypt(self):
+    	self.message = self.entry1.get(1.0,"end-1c")
+    			#All the alphabets are included in this , can be used to find the next 5th charactor
+    	keys = "abcdefghijklmnopqrstvuwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ"
+
+		# The encrpted message is stored in this variable
+    	self.temp =""
+
+		#traverse through all the charactors of the entered message
+    	for i in self.message:
+				#traverse through all the alphabets to find the matching pair
+    		for x in keys:
+
+				#if the message has any numbers , then we need to filter it out 
+    			
+    			if i in keys:
+    				if i =='W':
+    					self.temp += 'A'
+    					break
+    				elif i =='X':
+    					self.temp += 'B'
+    					break
+    				elif i =='Y':
+    					self.temp += 'C'
+    					break
+    				elif i =='Z':
+    					self.temp += 'D'
+    					break
+
+    				elif i == ' ':
+    					self.temp += '  '
+    					break
+    				elif i == x:
+    					pos = keys.index(x)
+    					self.temp += keys[pos+5] #this gets the next 5th element 
+
+    	self.entry1.delete(1.0,"end-1c")
+    	self.entry1.insert(1.0,self.temp)
 
 ################################################################################3
     def open(self):
